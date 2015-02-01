@@ -1,0 +1,5 @@
+include ':android-device-identification'
+include ':android-device-identification-sample'
+
+project(':android-device-identification').projectDir = file('library')
+project(':android-device-identification-sample').projectDir = file('samples/android-device-identification')

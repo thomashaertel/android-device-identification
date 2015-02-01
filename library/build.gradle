@@ -1,0 +1,135 @@
+apply plugin: 'com.android.library'
+apply plugin: 'android-maven'
+apply plugin: 'com.jfrog.bintray'
+apply from: '../gradle.properties'
+
+def siteUrl = 'https://github.com/thomashaertel/android-device-identification'      // Homepage URL of the library
+def gitUrl = 'https://github.com/thomashaertel/android-device-identification.git'   // Git repository URL
+def scmUrl = 'scm:git@github.com:thomashaertel/android-device-identification.git'   // SCM repository URL
+def issueUrl = 'https://github.com/thomashaertel/android-device-identification/issues' // Issue Tracker URL
+def libraryVersionCode = 1
+def libraryVersion = '0.0.1'
+
+// set project version and group
+version = libraryVersion
+group = 'com.thomashaertel'
+
+android {
+    compileSdkVersion global_compileSdkVersion
+    buildToolsVersion global_buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion global_minSdkVersion
+        targetSdkVersion global_targetSdkVersion
+        versionCode libraryVersionCode
+        versionName libraryVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+}
+
+dependencies {
+	compile 'com.thomashaertel:secure-preferences:0.1.+@aar'
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                artifactId 'android-device-identification'
+                name 'Android-Device-Identification'
+                packaging 'aar'
+                description 'Library for unique identification of an Android device. Provides also a backup solution'
+                url siteUrl
+
+                scm {
+                    url siteUrl
+                    connection scmUrl
+                    developerConnection scmUrl
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'thomashaertel'
+                        name 'Thomas Haertel'
+                        email 'mailhomashaertel.com'
+                    }
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('bintrayUser')
+    key = project.hasProperty('bintrayApikey') ? project.property('bintrayApikey') : System.getenv('bintrayApikey')
+
+    configurations = ['archives'] //When uploading configuration files
+
+    pkg {
+        repo = 'maven'
+        name = 'Android-Device-Identification'
+        desc = 'Library for unique identification of an Android device. Provides also a backup solution'
+        websiteUrl = siteUrl
+        issueTrackerUrl = issueUrl
+        vcsUrl = gitUrl
+        licenses = ['Apache']
+        labels = ['device', 'identification', 'android', 'backup', 'user']
+        publicDownloadNumbers = true
+
+        version {
+            name = libraryVersion
+            vcsTag = libraryVersion
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = project.hasProperty('gpgPassphrase') ? project.property('gpgPassphrase') : System.getenv('gpgPassphrase') //Optional. The passphrase for GPG signing'
+            }
+            properties.has
+/*            mavenCentralSync {
+                sync = true
+                //Optional (true by default). Determines whether to sync the version to Maven Central.
+                user = project.hasProperty('sonatypeUser') ? project.property('sonatypeUser') : System.getenv('sonatypeUser') //OSS user token
+                password = project.hasProperty('sonatypeUser') ? project.property('sonatypeUser') : System.getenv('sonatypeUser') //OSS user password
+                close = '1'
+                //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+            }*/
+        }
+    }
+}

@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.thomashaertel.device">
+
+    <!-- Different name: Android-Unique-App-Identifier, Android-App-Identifier -->
+    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    
+</manifest>
