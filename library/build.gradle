@@ -105,7 +105,7 @@ bintray {
 
     pkg {
         repo = 'maven'
-        name = 'Android-Device-Identification'
+        name = 'android-device-identification'
         desc = 'Library for unique identification of an Android device. Provides also a backup solution'
         websiteUrl = siteUrl
         issueTrackerUrl = issueUrl
