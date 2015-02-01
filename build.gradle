@@ -3,6 +3,7 @@ apply plugin: 'android-reporting'
 
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
     }
     dependencies {
@@ -12,8 +13,9 @@ buildscript {
     }
 }
 
-repositories {
-    jcenter()
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
 }
-
-

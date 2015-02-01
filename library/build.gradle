@@ -37,6 +37,10 @@ android {
     }
 }
 
+dependencies {
+    compile 'com.thomashaertel:secure-preferences:0.1.+@aar'
+}
+
 task androidJavadocs(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
@@ -55,10 +59,6 @@ task androidSourcesJar(type: Jar) {
 artifacts {
     archives androidSourcesJar
     archives androidJavadocsJar
-}
-
-dependencies {
-	compile 'com.thomashaertel:secure-preferences:0.1.+@aar'
 }
 
 install {
