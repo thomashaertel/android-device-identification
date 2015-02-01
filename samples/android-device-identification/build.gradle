@@ -6,7 +6,7 @@ android {
     buildToolsVersion global_buildToolsVersion
 
     defaultConfig {
-        applicationId "com.thomashaertel.samples.device-identification"
+        applicationId "com.thomashaertel.samples.device"
         minSdkVersion global_minSdkVersion
         targetSdkVersion global_targetSdkVersion
         versionCode 1

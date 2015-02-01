@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MultiSpinner Sample</string>
-    <string name="hello_world">MultiSpinner Choice:</string>
+    <string name="app_name">Device Identification Sample</string>
     <string name="action_settings">Settings</string>
 
 </resources>
