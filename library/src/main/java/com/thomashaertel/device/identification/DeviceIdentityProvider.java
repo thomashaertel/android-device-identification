@@ -5,19 +5,25 @@ import android.text.TextUtils;
 
 import com.thomashaertel.device.identification.internal.DeviceIdentifier;
 
+import java.util.Date;
+
 /**
  * Created by Haertel on 31.01.2015.
  */
 public class DeviceIdentityProvider {
 
-    public static final String DEVICE_ID_KEY = "DEVICE_ID_KEY";
+    public static final String DEVICE_ID_KEY = "deviceId";
+    public static final String DEVICE_ID_TIMESTAMP = "deviceIdTimestamp";
 
     private static DeviceIdentityProvider instance;
     private Context mContext;
     private KeyValueStore mIdentityStore;
 
+    private boolean mNewDevice;
+
     private DeviceIdentityProvider(Context ctx) {
         this.mContext = ctx;
+        this.mIdentityStore = new SharedPreferencesStore(ctx, true);
 
         init();
     }
@@ -31,12 +37,14 @@ public class DeviceIdentityProvider {
     }
 
     private void init() {
+        mNewDevice = false;
+
         // initialize identity provider and check if device id already exists
-        if (mIdentityStore.contains(DEVICE_ID_KEY)) {
-            if (TextUtils.isEmpty(mIdentityStore.get(DEVICE_ID_KEY))) {
-                // generate new device id
-                mIdentityStore.put(DEVICE_ID_KEY, generateDeviceId());
-            }
+        if (!mIdentityStore.contains(DEVICE_ID_KEY) || TextUtils.isEmpty(mIdentityStore.get(DEVICE_ID_KEY))) {
+            // generate new device id
+            mIdentityStore.put(DEVICE_ID_KEY, generateDeviceId());
+            mIdentityStore.put(DEVICE_ID_TIMESTAMP, String.valueOf(new Date().getTime()));
+            mNewDevice = true;
         }
     }
 
@@ -69,5 +77,14 @@ public class DeviceIdentityProvider {
 
     public void setIdentityStore(KeyValueStore identityStore) {
         this.mIdentityStore = identityStore;
+        init();
+    }
+
+    public boolean isNewDevice() {
+        return mNewDevice;
+    }
+
+    public Date getDeviceIdCreated() {
+        return new Date(Long.parseLong(getIdentityStore().get(DEVICE_ID_TIMESTAMP)));
     }
 }

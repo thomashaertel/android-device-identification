@@ -10,7 +10,7 @@ public class SharedPreferencesStore implements KeyValueStore {
 
     private static final String DEFAULT_PREFERENCE_FILE = "licenseprefs";
 
-    private SharedPreferences preferences;
+    private SharedPreferences mPreferences;
 
     public SharedPreferencesStore(Context ctx) {
         this(ctx, DEFAULT_PREFERENCE_FILE, false);
@@ -25,7 +25,7 @@ public class SharedPreferencesStore implements KeyValueStore {
     }
 
     public SharedPreferencesStore(Context ctx, final String filename, boolean secure) {
-        SharedPreferences sharedPref = init(ctx, filename, secure);
+        mPreferences = init(ctx, filename, secure);
     }
 
     private static SharedPreferences init(Context ctx, String filename, boolean secure) {
@@ -42,44 +42,44 @@ public class SharedPreferencesStore implements KeyValueStore {
 
     @Override
     public void clear() {
-        preferences.edit().clear().apply();
+        mPreferences.edit().clear().apply();
     }
 
     @Override
     public boolean contains(String key) {
-        return preferences.contains(key);
+        return mPreferences.contains(key);
     }
 
     @Override
     public String get(String key) {
-        return preferences.getString(key, null);
+        return mPreferences.getString(key, null);
     }
 
     @Override
     public String put(String key, String value) {
-        String old = preferences.getString(key, null);
+        String old = mPreferences.getString(key, null);
 
-        preferences.edit().putString(key, value).apply();
+        mPreferences.edit().putString(key, value).apply();
 
         return old;
     }
 
     @Override
     public boolean isEmpty() {
-        return preferences.getAll().isEmpty();
+        return mPreferences.getAll().isEmpty();
     }
 
     @Override
     public String remove(String key) {
-        String old = preferences.getString(key, null);
+        String old = mPreferences.getString(key, null);
 
-        preferences.edit().remove(key).apply();
+        mPreferences.edit().remove(key).apply();
 
         return old;
     }
 
     @Override
     public int size() {
-        return preferences.getAll().size();
+        return mPreferences.getAll().size();
     }
 }
