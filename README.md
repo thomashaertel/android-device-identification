@@ -8,8 +8,48 @@ Library for unique identification of an Android device. Provides also a backup s
 TBD
 
 ## Usage
-TBD
 
+To make use of the device identification you only need to add an `DeviceIdentityProvider` to your activity:
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ...
+
+    identityProvider = DeviceIdentityProvider.getInstance(this);
+
+    // force backup for new device immediately
+    if (identityProvider.isNewDevice()) {
+        BackupManager backupManager = new BackupManager(this);
+        backupManager.dataChanged();
+    }
+
+    ...
+}
+```
+
+If you want automatically backup your application data to android backup service you need to add some snippets to the applications manifest an an activity:
+ 
+```xml
+<application android:backupAgent="com.thomashaertel.device.backup.SimpleBackupAgent" android:allowBackup="true" ...>
+    <meta-data android:name="com.google.android.backup.api_key" android:value="your-api-key" />
+    ...
+</application>
+```
+
+```java
+@Override
+protected void onStop() {
+    // allow backup authorized devices only
+    if (identityProvider.isAuthorizedDevice()) {
+        BackupManager backupManager = new BackupManager(this);
+        backupManager.dataChanged();
+    }
+
+    super.onStop();
+}
+```
 
 ## Building
 ### Gradle
@@ -86,6 +126,9 @@ or
 ```
 to the dependency.
 
+## Contributing
+For making contributions please send me pull requests, but also bugs and enhancement requests are welcome. Although no guarantees on when I can review them.
+
 ## License
 
-* [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+* [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)

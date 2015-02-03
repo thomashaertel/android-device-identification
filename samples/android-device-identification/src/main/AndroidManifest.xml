@@ -3,7 +3,7 @@
     package="com.thomashaertel.samples.device">
 
     <!-- to use the backup agent set android:backupAgent to application tag -->
-    <application
+    <application android:allowBackup="true"
         android:backupAgent="com.thomashaertel.device.backup.SimpleBackupAgent"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
