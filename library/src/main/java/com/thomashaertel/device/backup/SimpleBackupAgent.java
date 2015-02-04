@@ -1,6 +1,7 @@
 package com.thomashaertel.device.backup;
 
 import android.app.backup.BackupAgentHelper;
+import android.app.backup.BackupHelper;
 import android.app.backup.SharedPreferencesBackupHelper;
 
 /**
@@ -12,7 +13,7 @@ public class SimpleBackupAgent extends BackupAgentHelper {
     public static final String PREFS = "user_preferences";
 
     // A key to uniquely identify the set of backup data
-    public static final String PREFS_BACKUP_KEY = "prefs";
+    public static final String PREFS_BACKUP_KEY = "user_prefs";
 
     // Allocate a helper and add it to the backup agent
     @Override
