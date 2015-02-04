@@ -7,6 +7,17 @@ Library for unique identification of an Android device. Provides also a backup s
 ## Overview
 TBD
 
+## Release Notes:
+0.0.2
+
+* A secure preference store is used for holding the device specific data.
+* Backup manager helper added for backing up preferences and sqlite databases.
+
+0.0.1
+
+* Initial import to github. I've added several ways to identify an android device.
+* device specific data is written to shared preferences.
+
 ## Usage
 
 To make use of the device identification you only need to add an `DeviceIdentityProvider` to your activity:
