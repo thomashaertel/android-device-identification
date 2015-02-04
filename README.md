@@ -102,7 +102,7 @@ Then declare android-device-identification within your dependencies:
 ```groovy
 dependencies {
   ...
-  compile('com.thomashaertel:android-device-identification :0.0.1@aar') {
+  compile('com.thomashaertel:android-device-identification :0.0.2@aar') {
   }
   ...
 }
