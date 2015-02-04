@@ -8,7 +8,7 @@ import com.securepreferences.SecurePreferences;
 
 public class SharedPreferencesStore implements KeyValueStore {
 
-    private static final String DEFAULT_PREFERENCE_FILE = "licenseprefs";
+    private static final String DEFAULT_PREFERENCE_FILE = "app_prefs";
 
     private SharedPreferences mPreferences;
 
@@ -29,12 +29,11 @@ public class SharedPreferencesStore implements KeyValueStore {
     }
 
     private static SharedPreferences init(Context ctx, String filename, boolean secure) {
-        SharedPreferences prefs = null;
+        SharedPreferences prefs = ctx.getSharedPreferences(filename, Context.MODE_PRIVATE);
 
+        // if secure preferences should be used, wrap the shared preferences instance
         if (secure) {
-            prefs = new SecurePreferences(ctx); // TODO Exchange to configure filename
-        } else {
-            prefs = ctx.getSharedPreferences(filename, Context.MODE_PRIVATE);
+            prefs = new SecurePreferences(ctx, prefs);
         }
 
         return prefs;

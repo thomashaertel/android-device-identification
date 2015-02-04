@@ -38,7 +38,7 @@ android {
 }
 
 dependencies {
-    compile 'com.thomashaertel:secure-preferences:0.1.1@aar'
+    compile 'com.thomashaertel:secure-preferences:0.2.0@aar'
 }
 
 task androidJavadocs(type: Javadoc) {
