@@ -20,7 +20,7 @@ TBD
 
 ## Usage
 
-To make use of the device identification you only need to add an `DeviceIdentityProvider` to your activity:
+To make use of the device identification you only need to add a `DeviceIdentityProvider` to your activity:
 
 ```java
 @Override
@@ -40,7 +40,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
-If you want automatically backup your application data to android backup service you need to add some snippets to the applications manifest an an activity:
+If you want to automatically backup your application data to android backup service you need to add some snippets to the applications manifest an activity:
  
 ```xml
 <application android:backupAgent="com.thomashaertel.device.backup.SimpleBackupAgent" android:allowBackup="true" ...>
@@ -52,7 +52,7 @@ If you want automatically backup your application data to android backup service
 ```java
 @Override
 protected void onStop() {
-    // allow backup authorized devices only
+    // allow backup on authorized devices only
     if (identityProvider.isAuthorizedDevice()) {
         BackupManager backupManager = new BackupManager(this);
         backupManager.dataChanged();
